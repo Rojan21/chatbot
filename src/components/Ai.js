@@ -18,7 +18,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Make sure to include these imports:
 // import { GoogleGenerativeAI } from "@google/generative-ai";
-const genAI = new GoogleGenerativeAI('AIzaSyDxtHHtT3-bnbrKiyCaCXrG8FNp7G1tDa4');
+const genAI = new GoogleGenerativeAI('');
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const chathistory = [
   {
