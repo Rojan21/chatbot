@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { SendHorizontal } from 'lucide-react';
-
+import { generateStory } from './Ai';
 export const ChatInput = ({ onSend }) => {
   const [input, setInput] = useState('');
 
   const handleSubmit = (e) => {
+    
+   
+
+
     e.preventDefault();
     if (input.trim()) {
       onSend(input.trim());

@@ -4,8 +4,9 @@ import { ChatMessage } from './components/ChatMessage';
 import { ChatInput } from './components/ChatInput';
 import { generateMockingResponse } from './utils/mockingUtils';
 import { MessageTypes } from './types';
-
+import { generateStory } from './components/Ai';
 function App() {
+  const [response,setresponse] = useState('')
   const [messages, setMessages] = useState([
     {
       id: '1',
@@ -26,6 +27,21 @@ function App() {
   }, [messages]);
 
   const handleSendMessage = async (content) => {
+ 
+    generateStory(content)
+    .then(story => {
+      setresponse(story)
+      const botMessage = {
+        id: (Date.now() + 1).toString(),
+        content: story,
+        sender: MessageTypes.BOT,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, botMessage]);
+    })
+    .catch(error => {
+      setresponse(generateMockingResponse(content))
+    });
     // Add user message
     const userMessage = {
       id: Date.now().toString(),
@@ -36,16 +52,16 @@ function App() {
     setMessages(prev => [...prev, userMessage]);
 
     // Simulate typing delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Add bot response
-    const botMessage = {
-      id: (Date.now() + 1).toString(),
-      content: generateMockingResponse(content),
-      sender: MessageTypes.BOT,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, botMessage]);
+    // // Add bot response
+    // const botMessage = {
+    //   id: (Date.now() + 1).toString(),
+    //   content: response,
+    //   sender: MessageTypes.BOT,
+    //   timestamp: new Date(),
+    // };
+    // setMessages(prev => [...prev, botMessage]);
   };
 
   return (
@@ -57,7 +73,7 @@ function App() {
         </div>
         <div>
           <h1 className="text-lg font-semibold text-gray-900">MockBot</h1>
-          <p className="text-sm text-gray-500">Professionally unprofessional</p>
+         
         </div>
       </header>
 
